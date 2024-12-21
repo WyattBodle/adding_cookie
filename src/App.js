@@ -18,7 +18,7 @@ const App = () => {
         .catch((error) => console.error("Error signing in:", error));
 
     fetchCompetitors();
-  }, []);
+  }, [fetchCompetitors]);
 
   // Fetch competitors from Firestore
   const fetchCompetitors = async () => {
