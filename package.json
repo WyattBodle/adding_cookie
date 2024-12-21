@@ -14,7 +14,7 @@
     "web-vitals": "^4.2.4"
   },
   "homepage": "https://WyattBodle.adding_cookie",
-  "scripts": {
+  "scripts":  {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
