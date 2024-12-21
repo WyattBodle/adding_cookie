@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { db, auth } from "./firebase"; // Firebase Firestore and Authentication
 import { collection, addDoc, getDocs, updateDoc, doc, deleteDoc } from "firebase/firestore";
 import { signInAnonymously } from "firebase/auth";
@@ -11,17 +11,8 @@ const App = () => {
   const [votes, setVotes] = useState({}); // Track votes locally
   const [sortBy, setSortBy] = useState("none"); // Sorting state
 
-  // Sign in anonymously on app load
-  useEffect(() => {
-    signInAnonymously(auth)
-        .then(() => console.log("Signed in anonymously"))
-        .catch((error) => console.error("Error signing in:", error));
-
-    fetchCompetitors();
-  }, [fetchCompetitors]);
-
   // Fetch competitors from Firestore
-  const fetchCompetitors = async () => {
+  const fetchCompetitors = useCallback(async () => {
     const querySnapshot = await getDocs(collection(db, "competitors"));
     const competitorsData = [];
     querySnapshot.forEach((doc) => {
@@ -31,7 +22,16 @@ const App = () => {
     // Sort based on the current sorting preference
     const sortedData = sortCompetitors(competitorsData, sortBy);
     setCompetitors(sortedData);
-  };
+  }, [sortBy]);
+
+  // Sign in anonymously on app load
+  useEffect(() => {
+    signInAnonymously(auth)
+        .then(() => console.log("Signed in anonymously"))
+        .catch((error) => console.error("Error signing in:", error));
+
+    fetchCompetitors();
+  }, [fetchCompetitors]);
 
   // Handle image upload to Cloudinary and competitor addition
   const handleAddCompetitor = async () => {
