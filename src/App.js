@@ -198,12 +198,6 @@ const App = () => {
               <p>Looks Votes: {competitor.looksVotes}</p>
 
               {/* Voting Buttons */}
-              <button onClick={() => handleVote(competitor.id, "flavor")}>
-                Vote for Flavor
-              </button>
-              <button onClick={() => handleVote(competitor.id, "looks")}>
-                Vote for Looks
-              </button>
 
               {/* Delete Button */}
               <button
